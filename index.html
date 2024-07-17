@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Sanchita kapkar!</title>
+    <style>
+        .my-button {
+            background-color: #8caec570;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0px 0px 5px rgb(0, 0, 0);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .my-button:hover {
+            background-color: #0f0f0f;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .countdown-container {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .countdown {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        body {
+            background-color: #0c598b70;
+            background-size: 100% 100%;
+            background-position: cover;
+            overflow: hidden; /* Prevents scrollbars due to canvas overflow */
+            margin: 0; /* Remove default margin */
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Happy Birthday, Sanchita kapkar!</h1>
+        <button onclick="startAnimation()" class="my-button">
+            <i class="fa fa-gift"></i>🩵 Tap Here
+        </button>
+        <div class="countdown-container">
+            <p class="message">Countdown to the special day starts before:</p>
+            <div class="countdown">
+                <span id="days">0</span> days,
+                <span id="hours">0</span> hours,
+                <span id="minutes">0</span> minutes,
+                <span id="seconds">0</span> seconds
+            </div>
+            <p class="message">Wishing you a day filled with love, laughter, and celebration!!!</p>
+            <p class="message">May the cake be delicious and the year ahead be even better!!!</p>
+        </div>
+    </div>
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        function startAnimation() {
+            const countdownContainer = document.querySelector('.countdown-container');
+            countdownContainer.style.display = 'block';
+
+            const countdownElement = document.querySelector('.countdown');
+            const daysElement = document.querySelector('#days');
+            const hoursElement = document.querySelector('#hours');
+            const minutesElement = document.querySelector('#minutes');
+            const secondsElement = document.querySelector('#seconds');
+
+            const birthday = new Date('July 17, 2024 00:00:00').getTime();
+            const interval = 1000; // 1 second
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = now - birthday;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                daysElement.textContent = days;
+                hoursElement.textContent = hours;
+                minutesElement.textContent = minutes;
+                secondsElement.textContent = seconds;
+
+            }, interval);
+
+            // JavaScript for drawing animated spiral
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            colors = ["white", "red", "purple", "green", "yellow", "orange"];
+            let angle = 0;
+            let radius = 0.5;
+            let centerX = canvas.width / 1;
+            let centerY = canvas.height / 1;
+            let colorIndex = 1;
+            let increment = 0.3; // Adjusted increment for smoother animation
+
+            function drawSpiral() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+            
+                for (let i = 0; i < 360; i++) {
+                    angle += increment;
+                    radius += 0.019;
+                    // Calculate new centerX and centerY
+                    let newX = canvas.width / 2 + Math.cos(angle) * radius;
+                    let newY = canvas.height / 2 + Math.sin(angle) * radius;
+                    ctx.lineTo(newX, newY);
+                    ctx.strokeStyle = colors[colorIndex % colors.length];
+                    ctx.stroke();
+                    centerX = newX; // Update centerX
+                    centerY = newY; // Update centerY
+                    colorIndex+=1;
+                }
+            }
+            function animate() {
+                drawSpiral();
+                requestAnimationFrame(animate);
+                }
+            animate();
+        }
+        </script>
+</body>
+</html>
